@@ -10,6 +10,7 @@ namespace std {
 
 		void Login();
 		void PrintOptions();
+		void PrintOptionsCourse();
 	};
 }
 
