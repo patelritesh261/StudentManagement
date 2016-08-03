@@ -5,8 +5,9 @@
 #include <stdio.h>
 #include <fstream>
 #include<vector>
+
 namespace std {
-	class Student
+	 class Student 
 	{
 	private:
 		//strucure declaration
@@ -20,7 +21,7 @@ namespace std {
 			char City[10] = { ' ',' ',' ',' ',' ',' ',' ',' ','\0' };
 			char PCode[7] = { ' ',' ',' ',' ',' ',' ','\0' };
 		};
-		struct student
+		struct studentStruct
 		{
 			//variable declaration
 			long StuNumber = 0;
@@ -31,15 +32,21 @@ namespace std {
 
 	public:
 		//Constructor
+		studentStruct studentinfo;
 		Student();
+		Student(long, string);
 		~Student();
 
 		//Method Declration
-		void Login();
-		void CheckIfUserExist(student);
-		void UpdateInfo(student);
-		void ViewInfo(student);
-		void Delete(student);
+		void setStudentInfo(string, string);
+		studentStruct getStudentInfo();
+		bool Login();
+		bool CheckIfUserExist(studentStruct);
+		void UpdateInfo(studentStruct);
+		void ViewInfo(studentStruct);
+		void Delete(studentStruct);
+		void AddNewStudent(studentStruct);
+		void PrintOptions(studentStruct);
 	};
 
 }

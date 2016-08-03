@@ -2,7 +2,7 @@
 // Assignment-1													 *
 // Name : Ritesh Patel(200307232) and Parvati Patel(200308239)   *
 //****************************************************************
-#include "Student.h"
+#include "Grade.h"
 
 using namespace std;
 //****************************************************************
@@ -12,8 +12,8 @@ using namespace std;
 //****************************************************************
 void main()
 {
-	Student student;
-	student.Login();
+	Grade grade;
+	grade.Login();
 	cin.get();
 	cin.get();
 }
