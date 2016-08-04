@@ -67,6 +67,7 @@ namespace std {
 	void Grade::PrintOptionsCourse() {
 		Course course;
 		system("CLS");
+
 		cout << "Plaese choose one option from below......" << endl;
 		cout << "1.\tAdd Course." << endl;
 		cout << "2.\tDelete Course." << endl;
