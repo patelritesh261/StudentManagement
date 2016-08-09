@@ -24,8 +24,8 @@ namespace std {
 		struct studentStruct
 		{
 			//variable declaration
-			long StuNumber = 0;
-			char Password[6] = { ' ',' ',' ',' ',' ','\0' };
+			char StuNumber[10] = {' ',' ',' ',' ', ' ',' ',' ',' ',' ','\0' };
+			char Password[10] = {' ', ' ',' ',' ',' ',' ','\0' };
 			studentInfo studentinfo;
 		};
 
@@ -42,9 +42,11 @@ namespace std {
 		studentStruct getStudentInfo();
 		bool Login();
 		bool CheckIfUserExist(studentStruct);
-		void UpdateInfo(studentStruct);
-		void ViewInfo(studentStruct);
-		void Delete(studentStruct);
+		void AddInfo();
+		void UpdateInfo();
+		void ViewInfo();
+		void Delete();
+		void PrintAllStudents();
 		void AddNewStudent(studentStruct);
 		void PrintOptions(studentStruct);
 	};
