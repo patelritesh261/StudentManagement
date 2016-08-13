@@ -7,26 +7,23 @@ namespace std {
 	}
 	Student::Student(long studentID,string password)
 	{
-		
-		//studentinfo.StuNumber = studentID;
-		//strncpy(studentinfo.Password, password.c_str(), sizeof(password));
-		//.studentinfo.Password[sizeof(studentinfo.Password) - 1] = 0;
 
 	}
 	Student::studentStruct Student::getStudentInfo() {
 		return studentinfo;
 	}
-	Student::studentStruct Student::getStudentAllInfo() {
+	Student::studentStruct Student::getStudentAllInfo(string studentNum) {
 
-		studentStruct studentstructIn, studentstruct;
+		studentStruct  studentstruct, studentstructIn;
 		fstream inputFile;
 		int flag = 0;
 		int CurrentPoint = 0;
 		bool lflag = false;
 		//get inputs from users
-		cout << "Enter Student ID :\t";
-		cin >> studentstructIn.StuNumber;
-
+		for (int j = 0; j < 10; j++)
+		{
+			studentstructIn.StuNumber[j] = studentNum[j];
+		}
 
 		inputFile.open("Student.dat", ios::in | ios::binary);
 		if (!inputFile)
@@ -49,9 +46,6 @@ namespace std {
 			}
 		}
 		inputFile.close();
-		cout << "Press any key to continue....";
-		cin.get();
-		cin.get();
 
 
 		return studentinfo;
@@ -65,6 +59,7 @@ namespace std {
 	bool Student::Login() {
 		//studentStruct student;
 		//get login infotmation
+
 
 		cout << "Student Number :\t";
 		cin >> studentinfo.StuNumber;
@@ -145,8 +140,10 @@ namespace std {
 			{
 				inputFile.read((char *)(&student), sizeof(student));
 				if (strcmp(student.StuNumber, studentstruct.StuNumber) == 0) {
+					
 						lflag = true;
 						flag++;
+					
 				}
 			}
 		}
@@ -185,6 +182,7 @@ namespace std {
 		}
 		inputFile.close();
 		if (flag == 0) {
+			
 			cout << "Password (yymmdd) :\t";
 			cin >> studentstructIn.Password;
 			cout << "Student Name :\t";

@@ -14,6 +14,9 @@ namespace std {
 			if ((strcmp(student.studentinfo.StuNumber , "admin")==0) && (strcmp(student.studentinfo.Password , "admin")==0)) {
 				PrintOptions();
 			}
+			else {
+				PrintOptionsStudentU();
+			}
 			
 		}
 		
@@ -25,15 +28,16 @@ namespace std {
 	// function according to user input						         *
 	//****************************************************************
 	void Grade::PrintOptions() {
-		system("CLS");
-		cout << "Plaese choose one option from below......" << endl;
-		cout << "1.\tManage Course." << endl;
-		cout << "2.\tManage Student." << endl;
-		cout << "3.\tManage Grade." << endl;
-		cout << "4.\tPrint Report." << endl;
-		cout << "5.\tExit." << endl;
+		
 		char choice;
 		do {
+			system("CLS");
+			cout << "Plaese choose one option from below......" << endl;
+			cout << "1.\tManage Course." << endl;
+			cout << "2.\tManage Student." << endl;
+			cout << "3.\tManage Grade." << endl;
+			cout << "4.\tPrint Report." << endl;
+			cout << "5.\tExit." << endl;
 			cout << "Enter your option : ";
 			cin >> choice;
 		} while (choice<48 || choice>54);
@@ -62,6 +66,38 @@ namespace std {
 		PrintOptions();
 	}
 	//****************************************************************
+	// Method Name : PrintOptionsStudent.									 *
+	// Parameters : Nothings									     *
+	// This method display option and get input from user and call   *
+	// function according to user input						         *
+	//****************************************************************
+	void Grade::PrintOptionsStudentU() {
+		
+		char choice;
+		do {
+			system("CLS");
+			cout << "Plaese choose one option from below......" << endl;
+			cout << "1.\tView Grade Report." << endl;
+			cout << "2.\tExit." << endl;
+			cout << "Enter your option : ";
+			cin >> choice;
+		} while (choice<48 || choice>50);
+
+		//call according to choice
+		switch (choice)
+		{
+		case '1':
+			printGrade();
+			break;
+		case '2':
+			exit(0);
+			break;
+		default:
+			break;
+		}
+		PrintOptionsStudentU();
+	}
+	//****************************************************************
 	// Method Name : PrintOptionsCourse.							 *
 	// Parameters : Nothings									     *
 	// This method display option and get input from user and call   *
@@ -69,16 +105,16 @@ namespace std {
 	//****************************************************************
 	void Grade::PrintOptionsCourse() {
 		Course course;
-		system("CLS");
-
-		cout << "Plaese choose one option from below......" << endl;
-		cout << "1.\tAdd Course." << endl;
-		cout << "2.\tDelete Course." << endl;
-		cout << "3.\tPrint Course." << endl;
-		cout << "4.\tBack to Main Menu." << endl;
-		cout << "5.\tExit." << endl;
+		
 		char choice;
 		do {
+			system("CLS");
+			cout << "Plaese choose one option from below......" << endl;
+			cout << "1.\tAdd Course." << endl;
+			cout << "2.\tDelete Course." << endl;
+			cout << "3.\tPrint Course." << endl;
+			cout << "4.\tBack to Main Menu." << endl;
+			cout << "5.\tExit." << endl;
 			cout << "Enter your option : ";
 			cin >> choice;
 		} while (choice<48 || choice>54);
@@ -114,18 +150,18 @@ namespace std {
 	//****************************************************************
 	void Grade::PrintOptionsStudent() {
 		Student student;
-		system("CLS");
-
-		cout << "Plaese choose one option from below......" << endl;
-		cout << "1.\tAdd New Student." << endl;
-		cout << "2.\tUpdate Student Info." << endl;
-		cout << "3.\tView Student Info." << endl;
-		cout << "4.\tDelete Student." << endl;
-		cout << "5.\tPrint All Students." << endl;
-		cout << "6.\tBack to Main Menu." << endl;
-		cout << "7.\tExit." << endl;
+		
 		char choice;
 		do {
+			system("CLS");
+			cout << "Plaese choose one option from below......" << endl;
+			cout << "1.\tAdd New Student." << endl;
+			cout << "2.\tUpdate Student Info." << endl;
+			cout << "3.\tView Student Info." << endl;
+			cout << "4.\tDelete Student." << endl;
+			cout << "5.\tPrint All Students." << endl;
+			cout << "6.\tBack to Main Menu." << endl;
+			cout << "7.\tExit." << endl;
 			cout << "Enter your option : ";
 			cin >> choice;
 		} while (choice<48 || choice>55);
@@ -166,17 +202,17 @@ namespace std {
 	// function according to user input						         *
 	//****************************************************************
 	void Grade::PrintOptionsGrade() {
-		system("CLS");
-
-		cout << "Plaese choose one option from below......" << endl;
-		cout << "1.\tAdd Grade." << endl;
-		cout << "2.\tUpdate Grade." << endl;
-		cout << "3.\tDelete Grade." << endl;
-		cout << "4.\tPrint Grade." << endl;
-		cout << "5.\tBack to Main Menu." << endl;
-		cout << "6.\tExit." << endl;
+		
 		char choice;
 		do {
+			system("CLS");
+			cout << "Plaese choose one option from below......" << endl;
+			cout << "1.\tAdd Grade." << endl;
+			cout << "2.\tUpdate Grade." << endl;
+			cout << "3.\tDelete Grade." << endl;
+			cout << "4.\tPrint Grade." << endl;
+			cout << "5.\tBack to Main Menu." << endl;
+			cout << "6.\tExit." << endl;
 			cout << "Enter your option : ";
 			cin >> choice;
 		} while (choice<48 || choice>54);
@@ -314,9 +350,13 @@ namespace std {
 			{
 				if (strcmp(gradeInfo.StuNumber, gradeInfoIn.StuNumber) == 0) {
 					//get user input from user
-					cout << "Enter the grade of "<< gradeInfo.Name<<endl;
-					cin >> gradeInfo.Score;
-
+					cout << "Enter the grade of " << gradeInfo.Name << endl;
+					//stackoverflow
+					while (!(cin >> gradeInfo.Score)) {
+						cout << "Bad value!";
+						cin.clear();
+						cin.ignore(numeric_limits<streamsize>::max(), '\n');
+					}
 					gradeInfoVector.push_back(gradeInfo);
 				}
 				else
@@ -379,8 +419,10 @@ namespace std {
 	}
 	void Grade::printGrade() {
 		GradeInfo gradeInfoIn, gradeInfo;
+		Student student;
 		vector<GradeInfo> gradeInfoVector;
 		fstream inputFile;
+		float Total = 0;
 		//get inputs from users
 		cout << "Enter Student ID :\t";
 		cin >> gradeInfoIn.StuNumber;
@@ -395,18 +437,40 @@ namespace std {
 		{
 			inputFile.read((char *)(&gradeInfo), sizeof(gradeInfo));
 			system("CLS");
+			//get student information
+			studentinfo = student.getStudentAllInfo(gradeInfoIn.StuNumber);
 			while (!inputFile.eof())
 			{
 				if (strcmp(gradeInfo.StuNumber, gradeInfoIn.StuNumber) == 0) {
-					//get user input from user
-					cout << "Course Name " << gradeInfo.Name << endl;
-					cout <<"Score "<< gradeInfo.Score<<endl;
+					//store values in vector
+					gradeInfoVector.push_back(gradeInfo);
 				}
 				inputFile.read((char *)(&gradeInfo), sizeof(gradeInfo));
 
 			}
 		}
 		inputFile.close();
+		//print result
+		system("CLS");
+		cout << "\n******************************** Student Basic Information *****************************************\n";
+		cout << "Student Number :\t" << studentinfo.StuNumber << endl;
+		cout << "Name :\t\t\t" << studentinfo.studentinfo.StuName << endl;
+		cout << "Program Name :\t\t" << studentinfo.studentinfo.ProName << endl;
+		cout << "Address :\t\t" << studentinfo.studentinfo.StAddr << endl;
+		cout << "City :\t\t\t" << studentinfo.studentinfo.City << endl;
+		cout << "Pin Code :\t\t" << studentinfo.studentinfo.PCode << endl;
+		cout << "\n******************************** Grade **************************************************************\n";
+		printf("%10s %12s\n", "Course Name", "Grade");
+		for (int i = 0; i < gradeInfoVector.size(); i++)
+		{
+			printf("%s : %.2f\n",gradeInfoVector[i].Name, gradeInfoVector[i].Score);
+			Total += gradeInfoVector[i].Score;
+		}
+		cout << "\n****************************************************************************************************\n";
+		printf("%s : %.2f\n", "Total Marks", Total);
+		printf("%s : %.2f\n", "Percentage", Total/ gradeInfoVector.size());
+		cout << "\n****************************************************************************************************\n";
+
 		cout << "Press any key to continue....";
 		cin.get();
 		cin.get();

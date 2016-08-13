@@ -19,9 +19,16 @@ namespace std {
 		fstream inputFile, outputFile;
 		int flag = 0;
 		//get input from user
-		cout << "Enter Course Name:";
-		cin >> Name;
-		for (int i = 0; i < Name.length() && i < 20; i++)
+		do {
+			system("CLS");
+			cout << "Enter Course Name:";
+			cin.ignore();
+			getline(cin, Name);
+		} while (Name.length()>29);
+		
+		
+		
+		for (int i = 0; i < Name.length() && i < 30; i++)
 		{
 			//convert character to upper case
 			CourseIn.Name[i] =toupper( Name[i]);
@@ -42,6 +49,7 @@ namespace std {
 						flag++;
 						system("CLS");
 						cout << "Course Already Added." << endl;
+						cin.get();
 						//call function again
 						Add();
 					}
@@ -79,11 +87,14 @@ namespace std {
 		string Name;
 		Course course, CourseIn;
 
-		//get input from user
-		cout << "Enter Course Name:";
-		cin >> Name;
+		do {
+			system("CLS");
+			cout << "Enter Course Name:";
+			cin.ignore();
+			getline(cin, Name);
+		} while (Name.length()>29);
 		
-		for (int i = 0; i < Name.length() && i < 20; i++)
+		for (int i = 0; i < Name.length() && i < 30; i++)
 		{
 			//convert character into upper case.
 			CourseIn.Name[i] =toupper( Name[i]);
@@ -146,7 +157,12 @@ namespace std {
 		for (int i = 0; i < courseList.size(); i++)
 		{
 			cout << "Enter the Grade of " << courseList[i].Name << endl;
-			cin >> score;
+			//stackoverflow
+			while (!(cin >> score)) {
+				cout << "Bad value!";
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			}
 			ScoreVector.push_back(score);
 		}
 		return ScoreVector;

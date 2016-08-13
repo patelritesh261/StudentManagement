@@ -9,7 +9,7 @@ namespace std {
 		struct GradeInfo
 		{
 			char StuNumber[10] = { ' ',' ',' ',' ', ' ',' ',' ',' ',' ','\0' };
-			char Name[20] = { ' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','\0' };
+			char Name[30] = { ' ',' ',' ', ' ',' ',' ', ' ', ' ', ' ', ' ', ' ', ' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','\0' };
 			float Score;
 		};
 		
@@ -26,6 +26,7 @@ namespace std {
 
 		void Login();
 		void PrintOptions();
+		void PrintOptionsStudentU();
 		void PrintOptionsCourse();
 		void PrintOptionsStudent();
 		void PrintOptionsGrade();

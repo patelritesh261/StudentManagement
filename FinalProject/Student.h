@@ -40,7 +40,7 @@ namespace std {
 		//Method Declration
 		void setStudentInfo(string, string);
 		studentStruct getStudentInfo();
-		studentStruct getStudentAllInfo();
+		studentStruct getStudentAllInfo(string);
 		bool Login();
 		bool CheckIfUserExist(studentStruct);
 		bool CheckIfUserExist1(studentStruct);
