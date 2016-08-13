@@ -132,6 +132,25 @@ namespace std {
 		cin.get();
 		cin.get();
 	}
+	//****************************************************************
+	// Method Name : GetGrade.										 *
+	// Parameters :	vector<float> ScoreVector						 *
+	// Return :vector<float>										 *
+	// This method return vector of score to grade class			 * 
+	//****************************************************************
+	std::vector<float>  Course::GetGrade(vector<float> ScoreVector)
+	{
+		vector<Course> courseList = getAllCourse();
+		
+		float score;
+		for (int i = 0; i < courseList.size(); i++)
+		{
+			cout << "Enter the Grade of " << courseList[i].Name << endl;
+			cin >> score;
+			ScoreVector.push_back(score);
+		}
+		return ScoreVector;
+	}
 	//*****************************************************************
 	// Method Name : getAllCourse.								      *
 	// Parameters :	Nothing											  *
@@ -155,6 +174,10 @@ namespace std {
 		}
 		return courseList;
 	}
+	string Course::getCourse(Course course) {
+		return course.Name;
+	}
+
 	
 
 	Course::~Course()

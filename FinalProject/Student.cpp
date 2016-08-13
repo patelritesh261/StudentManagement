@@ -14,7 +14,46 @@ namespace std {
 
 	}
 	Student::studentStruct Student::getStudentInfo() {
-		
+		return studentinfo;
+	}
+	Student::studentStruct Student::getStudentAllInfo() {
+
+		studentStruct studentstructIn, studentstruct;
+		fstream inputFile;
+		int flag = 0;
+		int CurrentPoint = 0;
+		bool lflag = false;
+		//get inputs from users
+		cout << "Enter Student ID :\t";
+		cin >> studentstructIn.StuNumber;
+
+
+		inputFile.open("Student.dat", ios::in | ios::binary);
+		if (!inputFile)
+		{
+			cerr << "Could Not Open File";
+		}
+		else
+		{
+			inputFile.read((char *)(&studentstruct), sizeof(studentstruct));
+			while (!inputFile.eof())
+			{
+
+				if (strcmp(studentstruct.StuNumber, studentstructIn.StuNumber) == 0) {
+					//system("CLS");
+					studentinfo= studentstruct;
+				}
+				inputFile.read((char *)(&studentstruct), sizeof(studentstruct));
+
+
+			}
+		}
+		inputFile.close();
+		cout << "Press any key to continue....";
+		cin.get();
+		cin.get();
+
+
 		return studentinfo;
 	}
 	//****************************************************************
@@ -59,6 +98,7 @@ namespace std {
 					if (strcmp(student.Password, studentstruct.Password) == 0) {
 						//if password and student number match than call print option menu.
 						//PrintOptions(studentstruct);
+						
 						lflag = true;
 						flag++;
 					}
@@ -83,6 +123,37 @@ namespace std {
 		}
 		return lflag;
 	}
+
+	//****************************************************************
+	// Method Name : CheckIfUserExist.								 *
+	// Parameters : Nothings									     *
+	// This method just call another function for further execution  *
+	//****************************************************************
+	bool Student::CheckIfUserExist1(studentStruct studentstruct) {
+		studentStruct student;
+		fstream inputFile;
+		int flag = 0;
+		bool lflag = false;
+		inputFile.open("Student.dat", ios::in | ios::binary);
+		if (!inputFile)
+		{
+			cerr << "Could Not Open File";
+		}
+		else
+		{
+			while (!inputFile.eof())
+			{
+				inputFile.read((char *)(&student), sizeof(student));
+				if (strcmp(student.StuNumber, studentstruct.StuNumber) == 0) {
+						lflag = true;
+						flag++;
+				}
+			}
+		}
+		inputFile.close();
+		return lflag;
+	}
+
 	void Student::AddInfo() {
 		studentStruct studentstructIn, studentstruct;
 		fstream inputFile;
