@@ -65,14 +65,13 @@ namespace std {
 			cout << "Course Added successfully!" << endl;
 			cout << "Press any key to continue....";
 			cin.get();
-			cin.get();
 		}		
 	}
 	//****************************************************************
 	// Method Name : Delete.										 *
 	// Parameters :	Nothing											 *
 	// Return : Nothing												 *
-	// This method allows to deletegiven course from file		 	 * 
+	// This method allows to delete given course from file		 	 * 
 	//****************************************************************
 	void Course::Delete()
 	{
@@ -190,6 +189,12 @@ namespace std {
 		}
 		return courseList;
 	}
+	//*****************************************************************
+	// Method Name : getCourse.										  *
+	// Parameters :	Course class onject								  *
+	// Return : string	  											  *
+	// This method return course name								  * 
+	//*****************************************************************
 	string Course::getCourse(Course course) {
 		return course.Name;
 	}

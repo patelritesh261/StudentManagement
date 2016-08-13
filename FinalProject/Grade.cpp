@@ -5,6 +5,12 @@ namespace std {
 	Grade::Grade()
 	{
 	}
+	//*****************************************************************
+	// Method Name : Login.											  *
+	// Parameters :	Nothing											  *
+	// Return : Nothing	  											  *
+	// This method call another lodin method of student class.		  * 
+	//*****************************************************************
 	void Grade::Login() {
 		Student student;
 		studentinfo= student.getStudentInfo();
@@ -36,7 +42,7 @@ namespace std {
 			cout << "1.\tManage Course." << endl;
 			cout << "2.\tManage Student." << endl;
 			cout << "3.\tManage Grade." << endl;
-			cout << "4.\tPrint Report." << endl;
+			cout << "4.\tGo To Student Section." << endl;
 			cout << "5.\tExit." << endl;
 			cout << "Enter your option : ";
 			cin >> choice;
@@ -55,7 +61,8 @@ namespace std {
 			PrintOptionsGrade();
 			break;
 		case '4':
-			PrintOptionsGrade();
+			system("CLS");
+			Login();
 			break;
 		case '5':
 			exit(0);
@@ -196,7 +203,7 @@ namespace std {
 		PrintOptionsStudent();
 	}
 	//****************************************************************
-	// Method Name : PrintOptionsCourse.							 *
+	// Method Name : PrintOptionsGrade.								 *
 	// Parameters : Nothings									     *
 	// This method display option and get input from user and call   *
 	// function according to user input						         *
@@ -243,6 +250,12 @@ namespace std {
 		}
 		PrintOptionsGrade();
 	}
+	//*****************************************************************
+	// Method Name : addGrade.										  *
+	// Parameters :	Nothing											  *
+	// Return : Nothing	  											  *
+	// This method add student grade to grade file					  * 
+	//*****************************************************************
 	void Grade::addGrade() {
 		GradeInfo grade,gradeIn;
 		fstream inputFile;
@@ -270,22 +283,15 @@ namespace std {
 				inputFile.read((char *)(&grade), sizeof(grade));
 				while (!inputFile.eof())
 				{
-
 					if (strcmp(grade.StuNumber, studentinfo.StuNumber) == 0) {
-
-
 						lflag = true;
 						flag++;
-
 					}
 					inputFile.read((char *)(&grade), sizeof(grade));
 				}
 			}
 			inputFile.close();
 			if (flag == 0) {
-				
-				
-				//studentinfo = student.getStudentAllInfo();
 				courseVector = course.getAllCourse();
 				ScoreVector = course.GetGrade(ScoreVector);
 				outputFile.open("Grade.dat", ios::app | ios::binary);
@@ -303,10 +309,7 @@ namespace std {
 					}
 					gradeIn.Score = ScoreVector[i];
 					outputFile.write((char *)(&gradeIn), sizeof(gradeIn));
-				}//gradeinfo.student.studentinfo = studentinfo;
-				 //if not in file add new course
-
-
+				}
 				outputFile.close();
 				cout << "Grades Added successfully!" << endl;
 				cout << "Press any key to continue....";
@@ -327,7 +330,12 @@ namespace std {
 			cin.get();
 		}
 	}
-	
+	//*****************************************************************
+	// Method Name : updateGrade.									  *
+	// Parameters :	Nothing											  *
+	// Return : Nothing	  											  *
+	// This method update grade of specific student Num.			  * 
+	//*****************************************************************
 	void Grade::updateGrade(){
 		GradeInfo gradeInfoIn, gradeInfo;
 		vector<GradeInfo> gradeInfoVector;
@@ -335,7 +343,6 @@ namespace std {
 		//get inputs from users
 		cout << "Enter Student ID :\t";
 		cin >> gradeInfoIn.StuNumber;
-
 
 		inputFile.open("Grade.dat", ios::in | ios::out | ios::binary);
 		if (!inputFile)
@@ -364,7 +371,6 @@ namespace std {
 					gradeInfoVector.push_back(gradeInfo);
 				}
 				inputFile.read((char *)(&gradeInfo), sizeof(gradeInfo));
-
 			}
 		}
 		inputFile.close();
@@ -376,7 +382,14 @@ namespace std {
 		cout << "Press any key to continue....";
 		cin.get();
 		cin.get();
+		
 	}
+	//*****************************************************************
+	// Method Name : deleteGrade.									  *
+	// Parameters :	Nothing											  *
+	// Return : Nothing	  											  *
+	// This method delete geade of specific student Num.			  * 
+	//*****************************************************************
 	void Grade::deleteGrade() {
 		GradeInfo gradeInfoIn, gradeInfo;
 		vector<GradeInfo> gradeInfoVector;
@@ -384,7 +397,6 @@ namespace std {
 		//get inputs from users
 		cout << "Enter Student ID :\t";
 		cin >> gradeInfoIn.StuNumber;
-
 
 		inputFile.open("Grade.dat", ios::in | ios::out | ios::binary);
 		if (!inputFile)
@@ -404,7 +416,6 @@ namespace std {
 					gradeInfoVector.push_back(gradeInfo);
 				}
 				inputFile.read((char *)(&gradeInfo), sizeof(gradeInfo));
-
 			}
 		}
 		inputFile.close();
@@ -417,6 +428,12 @@ namespace std {
 		cin.get();
 		cin.get();
 	}
+	//*****************************************************************
+	// Method Name : printGrade										  *
+	// Parameters :	Nothing											  *
+	// Return : Nothing	  											  *
+	// This method print grade of student num.						  * 
+	//*****************************************************************
 	void Grade::printGrade() {
 		GradeInfo gradeInfoIn, gradeInfo;
 		Student student;
@@ -426,7 +443,6 @@ namespace std {
 		//get inputs from users
 		cout << "Enter Student ID :\t";
 		cin >> gradeInfoIn.StuNumber;
-
 
 		inputFile.open("Grade.dat", ios::in | ios::out | ios::binary);
 		if (!inputFile)
@@ -446,7 +462,6 @@ namespace std {
 					gradeInfoVector.push_back(gradeInfo);
 				}
 				inputFile.read((char *)(&gradeInfo), sizeof(gradeInfo));
-
 			}
 		}
 		inputFile.close();
@@ -460,7 +475,7 @@ namespace std {
 		cout << "City :\t\t\t" << studentinfo.studentinfo.City << endl;
 		cout << "Pin Code :\t\t" << studentinfo.studentinfo.PCode << endl;
 		cout << "\n******************************** Grade **************************************************************\n";
-		printf("%10s %12s\n", "Course Name", "Grade");
+		//printf("%10s %12s\n", "Course Name", "Grade");
 		for (int i = 0; i < gradeInfoVector.size(); i++)
 		{
 			printf("%s : %.2f\n",gradeInfoVector[i].Name, gradeInfoVector[i].Score);

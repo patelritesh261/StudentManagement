@@ -5,13 +5,21 @@ namespace std {
 	Student::Student()
 	{
 	}
-	Student::Student(long studentID,string password)
-	{
-
-	}
+	//*****************************************************************
+	// Method Name : getStudentInfo.								  *
+	// Parameters :	Nothing											  *
+	// Return : Student	  											  *
+	// This method return studentinfo  structure					  * 
+	//*****************************************************************
 	Student::studentStruct Student::getStudentInfo() {
 		return studentinfo;
 	}
+	//*****************************************************************
+	// Method Name : getStudentAllInfo.								  *
+	// Parameters :	studentNum										  *
+	// Return : Student	  											  *
+	// This method return studentinfo  structure of given student num.*								  * 
+	//*****************************************************************
 	Student::studentStruct Student::getStudentAllInfo(string studentNum) {
 
 		studentStruct  studentstruct, studentstructIn;
@@ -35,19 +43,14 @@ namespace std {
 			inputFile.read((char *)(&studentstruct), sizeof(studentstruct));
 			while (!inputFile.eof())
 			{
-
 				if (strcmp(studentstruct.StuNumber, studentstructIn.StuNumber) == 0) {
 					//system("CLS");
 					studentinfo= studentstruct;
 				}
 				inputFile.read((char *)(&studentstruct), sizeof(studentstruct));
-
-
 			}
 		}
 		inputFile.close();
-
-
 		return studentinfo;
 	}
 	//****************************************************************
@@ -57,10 +60,7 @@ namespace std {
 	// another function to check if it is already exists or not		 *
 	//****************************************************************
 	bool Student::Login() {
-		//studentStruct student;
 		//get login infotmation
-
-
 		cout << "Student Number :\t";
 		cin >> studentinfo.StuNumber;
 		cout << "Password : \t";
@@ -72,7 +72,7 @@ namespace std {
 	//****************************************************************
 	// Method Name : CheckIfUserExist.								 *
 	// Parameters : Nothings									     *
-	// This method just call another function for further execution  *
+	// This method return bool according to given information	     *
 	//****************************************************************
 	bool Student::CheckIfUserExist(studentStruct studentstruct) {
 		studentStruct student;
@@ -120,9 +120,9 @@ namespace std {
 	}
 
 	//****************************************************************
-	// Method Name : CheckIfUserExist.								 *
+	// Method Name : CheckIfUserExist1.								 *
 	// Parameters : Nothings									     *
-	// This method just call another function for further execution  *
+	// This method return bool according to given information        *
 	//****************************************************************
 	bool Student::CheckIfUserExist1(studentStruct studentstruct) {
 		studentStruct student;
@@ -140,27 +140,29 @@ namespace std {
 			{
 				inputFile.read((char *)(&student), sizeof(student));
 				if (strcmp(student.StuNumber, studentstruct.StuNumber) == 0) {
-					
 						lflag = true;
 						flag++;
-					
 				}
 			}
 		}
 		inputFile.close();
 		return lflag;
 	}
-
+	//*****************************************************************
+	// Method Name : AddInfo.										  *
+	// Parameters :	Nothing											  *
+	// Return : Nothing	  											  *
+	// This method add new student information if it doesn't exists	  * 
+	//*****************************************************************
 	void Student::AddInfo() {
 		studentStruct studentstructIn, studentstruct;
 		fstream inputFile;
 		int flag = 0;
 		bool lflag = false;
+		string address, pincode,studentName,progName;
 		//get inputs from users
 		cout << "Enter Student ID :\t";
 		cin >> studentstructIn.StuNumber;
-
-		
 		inputFile.open("Student.dat", ios::in | ios::binary);
 		if (!inputFile)
 		{
@@ -176,45 +178,68 @@ namespace std {
 					cout << "Student already registered." << endl;
 						flag++;
 					}
-					
-				
 			}
 		}
 		inputFile.close();
-		if (flag == 0) {
-			
+		if (flag == 0) {			
 			cout << "Password (yymmdd) :\t";
 			cin >> studentstructIn.Password;
-			cout << "Student Name :\t";
-			cin >> studentstructIn.studentinfo.StuName;
-			cout << "Program Name :\t";
-			cin >> studentstructIn.studentinfo.ProName;
-			cout << "Street Address :\t";
-			cin >> studentstructIn.studentinfo.StAddr;
+			do {
+				cout << "Student Name :\t";
+				cin.ignore();
+				getline(cin, studentName);
+			} while (studentName.length()>19);
+			do {
+				cout << "Program Name :\t";
+				//cin.ignore();
+				getline(cin, progName);
+			} while (progName.length()>19);
+			do {
+				cout << "Street Address :\t";
+				//cin.ignore();
+				getline(cin, address);
+			} while (address.length()>19);
 			cout << "City :\t";
 			cin >> studentstructIn.studentinfo.City;
-			cout << "Pincode :\t";
-			cin >> studentstructIn.studentinfo.PCode;
-
-
+			do {
+				cout << "Pincode :\t";
+				cin.ignore();
+				getline(cin, pincode);
+			} while (pincode.length()>7);
+			//cin >> studentstructIn.studentinfo.PCode;
+			for (int i = 0; i < 8 && i < pincode.length(); i++) {
+				studentstructIn.studentinfo.PCode[i] = pincode[i];
+			}
+			for (int i = 0; i < 20 && i<address.length(); i++) {
+				studentstructIn.studentinfo.StAddr[i] = address[i];
+			}
+			for (int i = 0; i < 20 && i<studentName.length(); i++) {
+				studentstructIn.studentinfo.StuName[i] = studentName[i];
+			}
+			for (int i = 0; i < 20 && i<progName.length(); i++) {
+				studentstructIn.studentinfo.ProName[i] = progName[i];
+			}
 			inputFile.open("Student.dat", ios::app | ios::binary);
 			//write data to file
 			inputFile.write((char *)(&studentstructIn), sizeof(studentstructIn));
 			inputFile.close();
-
 			cout << "Student Added successfully!" << endl;
 			cout << "Press any key to continue....";
-			cin.get();
 			cin.get();
 			lflag = true;
 			flag++;
 		}
-		
-
 	}
+	//*****************************************************************
+	// Method Name : UpdateInfo.									  *
+	// Parameters :	Nothing											  *
+	// Return : Nothing	  											  *
+	// This method Update student information						  * 
+	//*****************************************************************
 	void Student::UpdateInfo() {
 		studentStruct studentstructIn, studentstruct;
 		vector<studentStruct> studentstructVector;
+		string address, pincode, studentName, progName;
 		fstream inputFile, tempFile;
 		int flag = 0;
 		int CurrentPoint = 0;
@@ -242,22 +267,43 @@ namespace std {
 					//get user input from user
 					cout << "Password (yymmdd) :\t";
 					cin >> studentstructIn.Password;
-					cout << "Student Name :\t";
-					cin >> studentstructIn.studentinfo.StuName;
-					cout << "Program Name :\t";
-					cin >> studentstructIn.studentinfo.ProName;
-					cout << "Street Address :\t";
-					cin >> studentstructIn.studentinfo.StAddr;
+					do {
+						cout << "Student Name :\t";
+						cin.ignore();
+						getline(cin, studentName);
+					} while (studentName.length()>19);
+					do {
+						cout << "Program Name :\t";
+						//cin.ignore();
+						getline(cin, progName);
+					} while (progName.length()>19);
+					do {
+						cout << "Street Address :\t";
+						//cin.ignore();
+						getline(cin, address);
+					} while (address.length()>19);
 					cout << "City :\t";
 					cin >> studentstructIn.studentinfo.City;
-					cout << "Pincode :\t";
-					cin >> studentstructIn.studentinfo.PCode;
+					do {
+						cout << "Pincode :\t";
+						cin.ignore();
+						getline(cin, pincode);
+					} while (pincode.length()>7);
+
+					for (int i = 0; i < 8 && i < pincode.length(); i++) {
+						studentstructIn.studentinfo.PCode[i] = pincode[i];
+					}
+					for (int i = 0; i < 20 && i<address.length(); i++) {
+						studentstructIn.studentinfo.StAddr[i] = address[i];
+					}
+					for (int i = 0; i < 20 && i<studentName.length(); i++) {
+						studentstructIn.studentinfo.StuName[i] = studentName[i];
+					}
+					for (int i = 0; i < 20 && i<progName.length(); i++) {
+						studentstructIn.studentinfo.ProName[i] = progName[i];
+					}
 
 					studentstructVector.push_back(studentstructIn);
-					/*CurrentPoint = 1 * sizeof(studentstruct);
-					inputFile.seekp(CurrentPoint, ios::cur);
-					inputFile.write((char*)(&studentstructIn), sizeof(studentstruct));*/
-
 					flag++;
 				}
 				else
@@ -278,6 +324,12 @@ namespace std {
 		cin.get();
 		cin.get();
 	}
+	//*****************************************************************
+	// Method Name : ViewInfo.										  *
+	// Parameters :	Nothing											  *
+	// Return : Nothing	  											  *
+	// This method shows the student information of given student num.* 
+	//*****************************************************************
 	void Student::ViewInfo() {
 		studentStruct studentstructIn, studentstruct;
 		fstream inputFile;
@@ -301,10 +353,8 @@ namespace std {
 			{
 				
 				if (strcmp(studentstruct.StuNumber, studentstructIn.StuNumber) == 0) {
-					//system("CLS");
-
 					//get user input from user
-				cout << "Student ID :\t" << studentstruct.StuNumber << endl;
+					cout << "Student ID :\t" << studentstruct.StuNumber << endl;
 					cout << "Password :\t"<< studentstruct.Password<<endl;
 					cout << "Student Name :\t"<< studentstruct.studentinfo.StuName << endl;
 					cout << "Program Name :\t"<< studentstruct.studentinfo.ProName << endl;
@@ -324,6 +374,12 @@ namespace std {
 		cin.get();
 		cin.get();
 	}
+	//*****************************************************************
+	// Method Name : Delete.										  *
+	// Parameters :	Nothing											  *
+	// Return : Nothing	  											  *
+	// This method delete student form file of giving student num.	  * 
+	//*****************************************************************
 	void Student::Delete() {
 		system("CLS");
 		fstream updateFile, tempFile;
@@ -347,7 +403,6 @@ namespace std {
 				{
 					//add users into vector
 					studentstructVector.push_back(studentstruct);
-					
 				}
 			}
 		}
@@ -371,10 +426,6 @@ namespace std {
 		fstream outputFile;
 		studentStruct studentstructIn;
 		
-		if (strcmp(studentstruct.StuNumber, "admin") != 0) {
-			//get user input from user
-		
-		}
 		outputFile.open("Student.dat", ios::app | ios::binary);
 		//write data to file
 		outputFile.write((char *)(&studentstruct), sizeof(studentstruct));
@@ -383,9 +434,13 @@ namespace std {
 		cout << "Student Added successfully!" << endl;
 		cout << "Press any key to continue....";
 		cin.get();
-		cin.get();
 	}
-	
+	//*****************************************************************
+	// Method Name : PrintAllStudents.								  *
+	// Parameters :	Nothing											  *
+	// Return : Nothing	  											  *
+	// This method display all students list						  * 
+	//*****************************************************************
 	void Student::PrintAllStudents() {
 		studentStruct studentstructIn, studentstruct;
 		fstream inputFile;

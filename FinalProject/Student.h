@@ -19,7 +19,7 @@ namespace std {
 
 			char StAddr[20] = { ' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','\0' };
 			char City[10] = { ' ',' ',' ',' ',' ',' ',' ',' ','\0' };
-			char PCode[7] = { ' ',' ',' ',' ',' ',' ','\0' };
+			char PCode[8] = { ' ',' ',' ',' ',' ',' ',' ','\0' };
 		};
 		struct studentStruct
 		{
@@ -34,11 +34,9 @@ namespace std {
 		//Constructor
 		studentStruct studentinfo;
 		Student();
-		Student(long, string);
 		~Student();
 
 		//Method Declration
-		void setStudentInfo(string, string);
 		studentStruct getStudentInfo();
 		studentStruct getStudentAllInfo(string);
 		bool Login();
